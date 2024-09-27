@@ -1,1 +1,5 @@
 black
+pandas
+sklearn
+matplotlib
+skops
