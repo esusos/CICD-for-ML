@@ -56,4 +56,15 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=pipe.classes_)
 disp.plot()
 plt.savefig("Results/model_results.png", dpi=120)
 
+model_dir = 'Model'
+if not os.path.exists(model_dir):
+    os.makedirs(model_dir)
+    
+sio.dump(pipe, "Model/drug_pipeline.skops")
 
+# Get the untrusted types and review them
+untrusted_types = sio.get_untrusted_types("Model/drug_pipeline.skops")
+print(f"Untrusted types: {untrusted_types}")
+
+# Load the pipeline, passing the list of untrusted types as trusted
+loaded_pipe = sio.load("Model/drug_pipeline.skops", trusted=untrusted_types)
