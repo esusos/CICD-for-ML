@@ -21,8 +21,8 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=125
 )
 
-cat_col = [1,2,3]
-num_col = [0,4]
+cat_col = [1, 2, 3]
+num_col = [0, 4]
 
 transform = ColumnTransformer(
     [
@@ -31,7 +31,12 @@ transform = ColumnTransformer(
         ("num_scaler", StandardScaler(), num_col),
     ]
 )
-pipe = Pipeline(steps=[("preprocessing", transform),("model", RandomForestClassifier(n_estimators=100, random_state=125)),])
+pipe = Pipeline(
+    steps=[
+        ("preprocessing", transform),
+        ("model", RandomForestClassifier(n_estimators=100, random_state=125)),
+    ]
+)
 pipe.fit(X_train, y_train)
 
 predictions = pipe.predict(X_test)
@@ -56,11 +61,11 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=pipe.classes_)
 disp.plot()
 plt.savefig("Results/model_results.png", dpi=120)
 
-model_dir = 'Model'
+model_dir = "Model"
 if not os.path.exists(model_dir):
     os.makedirs(model_dir)
-    
+
 sio.dump(pipe, "Model/drug_pipeline.skops")
 unknown_types = sio.get_untrusted_types(file="Model/drug_pipeline.skops")
 
-sio.load("Model/drug_pipeline.skops", trusted = unknown_types)
+sio.load("Model/drug_pipeline.skops", trusted=unknown_types)
