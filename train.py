@@ -40,11 +40,14 @@ f1 = f1_score(y_test, predictions, average="macro")
 
 print("Accuracy:", str(round(accuracy, 2) * 100) + "%", "F1:", round(f1, 2))
 
-metrics_file = "Results/metrics.txt"
-if not os.path.isfile(metrics_file):
-    # Create an empty file if it doesn't exist
-    open(metrics_file, "w").close()
-    
+# Define the directory and file paths
+results_dir = "Results"
+metrics_file = os.path.join(results_dir, "metrics.txt")
+
+# Ensure the Results directory exists, create it if not
+if not os.path.exists(results_dir):
+    os.makedirs(results_dir)
+
 with open("Results/metrics.txt", "w") as outfile:
     outfile.write(f"\nAccuracy = {accuracy.round(2)}, F1 Score = {f1.round(2)}.")
 
