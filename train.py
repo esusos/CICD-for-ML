@@ -61,10 +61,6 @@ if not os.path.exists(model_dir):
     os.makedirs(model_dir)
     
 sio.dump(pipe, "Model/drug_pipeline.skops")
+unknown_types = sio.get_untrusted_types(file="filename.skops")
 
-# Get the untrusted types and review them
-untrusted_types = sio.get_untrusted_types("Model/drug_pipeline.skops")
-print(f"Untrusted types: {untrusted_types}")
-
-# Load the pipeline, passing the list of untrusted types as trusted
-loaded_pipe = sio.load("Model/drug_pipeline.skops", trusted=untrusted_types)
+sio.load("Model/drug_pipeline.skops", trusted = unknown_types)
