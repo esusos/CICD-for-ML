@@ -9,6 +9,7 @@ from sklearn.metrics import accuracy_score, f1_score
 import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 import skops.io as sio
+import os
 
 drug_df = pd.read_csv("Data/drug.csv")
 drug_df = drug_df.sample(frac=1)
@@ -39,6 +40,11 @@ f1 = f1_score(y_test, predictions, average="macro")
 
 print("Accuracy:", str(round(accuracy, 2) * 100) + "%", "F1:", round(f1, 2))
 
+metrics_file = "Results/metrics.txt"
+if not os.path.isfile(metrics_file):
+    # Create an empty file if it doesn't exist
+    open(metrics_file, "w").close()
+    
 with open("Results/metrics.txt", "w") as outfile:
     outfile.write(f"\nAccuracy = {accuracy.round(2)}, F1 Score = {f1.round(2)}.")
 
